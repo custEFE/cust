@@ -36,5 +36,11 @@ npm start
             <th>get</th>
             <th>根据关键字搜索课程信息</th>
         </tr>
+        <tr>
+            <th>4</th>
+            <th>/course/getLessonList/395</th>
+            <th>get</th>
+            <th>获取课程详细信息</th>
+        </tr>
     </table>
 

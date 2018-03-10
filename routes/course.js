@@ -2,7 +2,7 @@ var express = require('express');
 var courseModel = require('../api/courseModel');
 var router = express.Router();
 /* GET course listing. */
-router.get('/getList/:pageNum/:pageSize/', function(req, res, next) {
+router.get('/getList/:pageNum/:pageSize', function(req, res, next) {
 	var data = {
 		// type: 'python',
 		pageNum: req.params.pageNum,
@@ -17,7 +17,7 @@ router.get('/getList/:pageNum/:pageSize/', function(req, res, next) {
 	});
 });
 
-router.get('/search/:pageNum/:pageSize/', function(req, res, next) {
+router.get('/search/:pageNum/:pageSize', function(req, res, next) {
 	var data = {
 		// keyword: 'python',
 		pageNum: req.params.pageNum,
@@ -32,7 +32,22 @@ router.get('/search/:pageNum/:pageSize/', function(req, res, next) {
 	courseModel.searchCourse(data, function(err, rs, fields) {
 		res.json(rs);
 	});
-  
+});
+
+router.get('/getLessonList/:courseId', function(req, res, next) {
+	var data = {
+		course_id: req.params.courseId
+	};
+	console.log(`请求参数为：`+ JSON.stringify(data));
+	courseModel.getCourseIntorduceById(data, function(err, rs, fields) {
+		var course_introduce = rs[0].course_introduce;
+		courseModel.getLessonListByCourseId(data, function(error, result, field) {
+			res.json({
+				introduce: course_introduce,
+				lesson_lists: result
+			});
+		})
+	});
 });
 
 module.exports = router;
