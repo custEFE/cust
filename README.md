@@ -7,9 +7,11 @@ npm install
 npm start
 ```
 
-`localhost:3000`
+本地Url: `localhost:3000`
 
-`localhost:3000/p/course`
+
+线上baseUrl: `http://140.143.163.52:8888`或者`http://www.ilovehena.cn:8888`
+
 
 <table>
         <tr>
