@@ -1,6 +1,6 @@
 var mysql = require('mysql');
 var config = require('./config');
-var pool = mysql.createPool(config.local);
+var pool = mysql.createPool(config.prod);
 
 var query = function(sql, callback) {
 	var connection = pool.getConnection(function(err, connection) {

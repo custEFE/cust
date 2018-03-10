@@ -8,10 +8,10 @@ var config = {
   },
   prod: {
       connectionLimit : 10,
-      host            : 'example.org',
-      user            : 'bob',
-      password        : 'secret',
-      database        : 'my_db'
+      host            : '140.143.163.52',
+      user            : 'root',
+      password        : 'wenyujie@123',
+      database        : 'custblog'
   }
 }
 
