@@ -229,7 +229,7 @@
 $(document).ready(function() {
     $('.weui-navbar__item').on('click', function() {
         $(this).addClass('weui-bar__item_on').siblings('.weui-bar__item_on').removeClass('weui-bar__item_on')
-        $('.weui-tab__panel .panel').hide()
+        $('.weui-tab__panel .panel').hide();
         $('.weui-tab__panel .panel').eq($(this).index()).show()
     });
 });
