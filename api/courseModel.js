@@ -52,11 +52,12 @@ var courseModel = {
 	},
 	getCourseIntorduceById: function(data, callback) {
 		var sql = squel.select()
-						.distinct()
 						.from('course_introduce')
 						.where('course_id=?', data.course_id)
+						.join("course", null, "course.id = course_introduce.course_id")
+						.group('course.id')
 						.toString();
-
+		console.log(sql)
 		query(sql, function(err, rs, fields) {
 			callback(err, rs, fields);
 		});
@@ -66,6 +67,7 @@ var courseModel = {
 						.from('lesson')
 						.where('course_id=?', data.course_id)
 						.join("lesson_detail", null, "lesson.lesson_id = lesson_detail.lesson_id")
+						.group('lesson.lesson_id')
 						.toString();
 						console.log(sql)
 		query(sql, function(err, rs, fields) {

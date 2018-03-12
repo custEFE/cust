@@ -4,7 +4,7 @@ var router = express.Router();
 var viewBasePath = path.join(path.resolve(__dirname, '..'), 'public/html');
 /* GET home page. */
 router.get('/course', function(req, res, next) {
-  res.sendFile(viewBasePath + '/a.html');
+  res.sendFile(viewBasePath + '/video.html');
 });
 
 module.exports = router;

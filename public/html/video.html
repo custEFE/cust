@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>live</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <link href="http://vjs.zencdn.net/6.6.3/video-js.css" rel="stylesheet">
+    <link href="https://cdn.bootcss.com/weui/1.1.2/style/weui.min.css" rel="stylesheet">
+    <style>
+    .videoContainer {
+        width: 100%;
+        height: 230px;
+        /*position: fixed;*/
+    }
+
+    .panel {
+        display: none;
+    }
+
+    .show {
+        display: block;
+    }
+    </style>
+</head>
+
+<body>
+	<div id="app" class="page">
+		<div class="videoContainer">
+		    <video id="my-video" class="video-js  vjs-default-skin vjs-big-play-centered" preload="auto" width="100%" controls poster="http://m.maiziedu.com/uploads/course/2015/10/5.12Linux.jpg" data-setup="{}">
+		        <source src="http://newoss.maiziedu.com/embedded_env_9.mp4" type='video/mp4'>
+		        <p class="vjs-no-js">
+		            To view this video please enable JavaScript, and consider upgrading to a web browser that
+		            <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
+		        </p>
+		    </video>
+		</div>
+		<div class="container" id="container">
+		    <div class="navbar js-show">
+		        <div class="page__bd" style="height: 100%;">
+		            <div class="weui-tab">
+		                <div class="weui-navbar">
+		                    <div class="weui-navbar__item weui-bar__item_on">
+		                        介绍
+		                    </div>
+		                    <div class="weui-navbar__item">
+		                        章节
+		                    </div>
+		                    <div class="weui-navbar__item">
+		                        评价
+		                    </div>
+		                </div>
+		                <div class="weui-tab__panel">
+		                    <div class="panel show">
+		                        <div class="page__bd">
+		                            <article class="weui-article">
+		                                <!-- <h1>大标题</h1> -->
+		                                <section>
+		                                    <!-- <h2 class="title">章标题</h2> -->
+		                                    <h3>Mongodb</h3>
+		                                    <p v-text="introduce"> 
+		                                    </p>
+		                                </section>
+		                            </article>
+		                        </div>
+		                    </div>
+		                    <div class="panel">
+		                        <div class="weui-panel__bd">
+		                            <div v-for="(item, index) in lesson_lists" class="weui-media-box weui-media-box_text">
+		                                <p class="weui-media-box__desc">{{index+1}}. {{item.lesson_name}} ({{item.video_time}})</p>
+		                            </div>
+		                            <div class="weui-media-box weui-media-box_text">
+		                            </div>
+		                        </div>
+		                    </div>
+		                    <div class="panel">3</div>
+		                </div>
+		            </div>
+		        </div>
+		    </div>
+		</div>
+	</div>
+    
+    <script src="https://cdn.bootcss.com/vue/2.5.13/vue.min.js"></script>
+    <script src="https://cdn.bootcss.com/vue-resource/1.5.0/vue-resource.min.js"></script>
+    <script src="http://vjs.zencdn.net/6.6.3/video.js"></script>
+    <script src="https://cdn.bootcss.com/zepto/1.0rc1/zepto.min.js"></script>
+    <link href="https://cdn.bootcss.com/weui/1.1.1/style/weui.min.css" rel="stylesheet">
+</body>
+<script>
+	var app = new Vue({
+		el: "#app",
+		data: {
+			introduce: '',
+			lesson_lists: []
+		},
+		created: function(){
+			this.loadData()
+		},
+		methods: {
+			loadData: function() {
+				var that = this
+				that.$http.get('http://www.ilovehena.cn:8888/course/getLessonList/395').then(res => {
+					console.log(res.body);
+					that.introduce = res.body.introduce
+					that.lesson_lists = res.body.lesson_lists
+				}, res => {
+					console.log(res);
+				})
+			}
+		}
+	})
+$(document).ready(function() {
+    $('.weui-navbar__item').on('click', function() {
+        $(this).addClass('weui-bar__item_on').siblings('.weui-bar__item_on').removeClass('weui-bar__item_on');
+        $('.weui-tab__panel .panel').hide();
+        $('.weui-tab__panel .panel').eq($(this).index()).show();
+    });
+
+    var options = {
+        techOrder: ['html5'],
+        autoplay: true
+    };
+    var player = videojs('my-video', options, function onPlayerReady() {
+        console.log(this);
+        document.querySelector('#my-video').style.width = "100%";
+        document.querySelector('#my-video').style.height = "100%";
+    });
+
+});
+</script>
+
+</html>

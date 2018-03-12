@@ -40,10 +40,11 @@ router.get('/getLessonList/:courseId', function(req, res, next) {
 	};
 	console.log(`请求参数为：`+ JSON.stringify(data));
 	courseModel.getCourseIntorduceById(data, function(err, rs, fields) {
-		var course_introduce = rs[0].course_introduce;
+		console.log(rs);
+		var info = rs[0];
 		courseModel.getLessonListByCourseId(data, function(error, result, field) {
 			res.json({
-				introduce: course_introduce,
+				info: info,
 				lesson_lists: result
 			});
 		})
