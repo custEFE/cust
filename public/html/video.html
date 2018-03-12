@@ -202,7 +202,7 @@
 			},
 			loadData: function() {
 				var that = this
-				that.$http.get('http://www.ilovehena.cn:8888/course/getLessonList/545').then(res => {
+				that.$http.get('http://140.143.163.52:8888/course/getLessonList/545').then(res => {
 					console.log(res.body)
 					that.showDialog = false
 					that.poster = res.body.info.img
@@ -229,7 +229,7 @@
 $(document).ready(function() {
     $('.weui-navbar__item').on('click', function() {
         $(this).addClass('weui-bar__item_on').siblings('.weui-bar__item_on').removeClass('weui-bar__item_on')
-        $('.weui-tab__panel .panel').hide()
+        $('.weui-tab__panel .panel').hide();
         $('.weui-tab__panel .panel').eq($(this).index()).show()
     });
 });
