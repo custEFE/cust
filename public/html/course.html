@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh-cn" xml:lang="zh-cn">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>视频学习</title>
+    <meta name="keywords" content=""/>
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=0" />
+    <!-- <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script> -->
+    <!-- <script charset="utf-8" src="http://map.qq.com/api/js?v=2.exp&libraries=convertor"></script> -->
+    <!-- <script src="../../dist/v20161222/bundle.js"></script> -->
+    <!-- <script src="//cdn.vizen.cn/public/plugins/es6-promise/es6-promise.min.js"></script> -->
+    <!-- <script type='text/javascript' src="//cdn.vizen.cn/public/plugins/es5-shim/es5-shim.min.js"></script> -->
+    <!-- <script type="text/javascript" src="../../dist/v20161222/ued.import.js" charset="utf-8"></script> -->
+    <link href="http://vjs.zencdn.net/6.6.3/video-js.css" rel="stylesheet">
+    <link href="https://cdn.bootcss.com/weui/1.1.2/style/weui.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/swiper.min.css">
+    <link rel="stylesheet" href="../css/course.css">
+
+</head>
+<body>
+    <div class="main-wrap" id="app">
+        <div class="header-wrap">
+            <div class="logo">
+                <img src="../../images/logo2.png">
+            </div>
+            <div class="search-btn">
+                <i class="weui-icon-search"></i>
+            </div>
+        </div>
+        <div class="nav swiper-container" id="mainSwiper">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide courstype" :class="{isSelect: item.isSelect}" v-for="(item, index) in coursesList" v-on:click="selectCourse(item.type)">{{item.name}}</div>
+            </div>
+        </div>
+        <div class="list-wrap">
+            <a class="list-item weui-media-box" v-for="(item, index) in listData" :id='index' :href="'./video?id='+item.id">
+                <div class="item-left weui-media-box__hd">
+                    <img :src="item.img">
+                </div>
+                <div class="item-right weui-media-box__bd">
+                    <h4 class="course-name">{{item.course_name}}</h4>
+                    <div class="more-data">
+                        <p class="time">{{item.learning_time}}</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="goTop" v-if="showGoTop" v-on:click="goTop">
+            <i class="iconfont icon-fold"></i>
+        </div>
+    </div>
+
+<script src="https://cdn.bootcss.com/vue/2.5.13/vue.min.js"></script>
+<script src="https://cdn.bootcss.com/vue-resource/1.5.0/vue-resource.min.js"></script>
+<script src="https://cdn.bootcss.com/zepto/1.0rc1/zepto.min.js"></script>
+<script src="../js/swiper.min.js"></script>
+<script src="../js/page_index.js"></script>
+</html>

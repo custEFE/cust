@@ -167,6 +167,7 @@
 		        techOrder: ['html5'],
 		        autoplay: false
 		    },
+		    id: 3,
 		    poster: '',
 		    firstUrl: '',
 		    player: null,
@@ -174,6 +175,7 @@
 		},
 		mounted: function(){
 			var vConsole = new VConsole()
+			this.id = this.getHeader('id', ' ');
 			this.loadData()
 			
 		},
@@ -205,7 +207,7 @@
 			},
 			loadData: function() {
 				var that = this
-				that.$http.get('http://140.143.163.52:8888/course/getLessonList/545').then(res => {
+				that.$http.get('http://140.143.163.52:8888/course/getLessonList/'+that.id).then(res => {
 					console.log(res.body)
 					that.showDialog = false
 					that.poster = res.body.info.img
@@ -226,6 +228,18 @@
 			    document.title = this.info.course_name + '-' + this.lesson_lists[i].lesson_name
 			    video.load()
 			    video.play()
+			},
+			getHeader : function(key,split){
+				
+				var urlStr = location.href;
+				var urlArr = urlStr.split('?');
+				var needDo = urlArr[1];
+				var getArr = needDo.split(split);
+				var Arr = new Array();
+				for(var i=0;i<getArr.length;i++){
+					Arr[$.trim(getArr[i].split('=')[0])] = $.trim(getArr[i].split('=')[1]);
+				}
+				return Arr[key];
 			}
 		}
 	})
