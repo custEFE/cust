@@ -12,7 +12,7 @@
     <style>
     .videoContainer {
         width: 100%;
-        height: 230px;
+        /*height: 230px;*/
     }
 	.video-js .vjs-big-play-button{
 	    font-size: 2.5em;
@@ -76,17 +76,17 @@
 
 <body>
 	<div id="app" class="page">
-		<div class="videoContainer">
-		    <video id="my-video" class="video-js  vjs-default-skin vjs-big-play-centered" preload="" width="100%" controls :poster="poster" data-setup="{}">
-		        <source id="videoSource" src="http://newoss.maiziedu.com/mongodb_1.mp4" type='video/mp4'>
-		        <p class="vjs-no-js">
-		            To view this video please enable JavaScript, and consider upgrading to a web browser that
-		            <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
-		        </p>
-		    </video> 
-		    <!-- <video src="http://newoss.maiziedu.com/mongodb_1.mp4" controls="controls">
+		<div class="videoContainer" v-if="video_src">
+		  <!--   <video id="my-video" class="video-js  vjs-default-skin vjs-big-play-centered" preload="" width="100%" controls :poster="poster" data-setup="{}">
+		      <source id="videoSource" :src="video_src" type='video/mp4'>
+		      <p class="vjs-no-js">
+		          To view this video please enable JavaScript, and consider upgrading to a web browser that
+		          <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
+		      </p>
+		  </video>  -->
+		    <video id="my-video" width="100%" :src="video_src" controls="controls" autoplay>
 		    your browser does not support the video tag
-		    </video> -->
+		    </video>
 		</div>
 		<div class="container" id="container">
 		    <div class="navbar js-show">
@@ -168,6 +168,7 @@
 		        autoplay: false
 		    },
 		    id: 3,
+		    video_src: '',
 		    poster: '',
 		    firstUrl: '',
 		    player: null,
@@ -176,13 +177,18 @@
 		mounted: function(){
 			var vConsole = new VConsole()
 			this.id = this.getHeader('id', ' ');
+			console.log(this.id);
 			this.loadData()
+			this.$nextTick(function () {
+				console.log(this.video_src)
+				this.loadPlayer()	
+			})
 			
 		},
 		updated: function() {
 			this.$nextTick(function(){
 	            //dom ready
-	            this.loadPlayer()
+	            
 	        });
 		},
 		methods: {
@@ -194,9 +200,11 @@
 		        	var video = $('#my-video video')[0]
 		        	var source = document.getElementById('videoSource')
 		        	var btnPlay = $('.vjs-big-play-button')
+		        	console.log(btnPlay);
 		        	btnPlay.on('click', function() {
+		        		alert(1)
 		        		document.title = that.info.course_name + '-' + that.lesson_lists[0].lesson_name
-		        		console.log(video)
+		        		console.log(that.video_src)
 			        	video.pause()
 			            source.setAttribute('src', that.lesson_lists[0].video_url)
 			            video.load()
@@ -213,7 +221,11 @@
 					that.poster = res.body.info.img
 					that.info = res.body.info
 					that.lesson_lists = res.body.lesson_lists
+					that.video_src = res.body.lesson_lists[0].video_url
 					that.firstUrl = res.body.lesson_lists[0].video_url
+					// that.video_src = res.body.lesson_lists[0].video_url
+					console.log(that.video_src)
+					
 					document.title = that.info.course_name
 				}, res => {
 					console.log(res)
@@ -221,13 +233,15 @@
 			},
 			changeVideo: function(i) {
 				this.lesson_active = i
-				var video = $('#my-video video')[0]	
-				var source = document.getElementById('videoSource')
-				video.pause()
-			    source.setAttribute('src', this.lesson_lists[i].video_url)
+				var video = $('#my-video')[0]	
+				// var source = document.getElementById('videoSource')
+				console.log(video);
+				// video.pause()
+				this.video_src = this.lesson_lists[i].video_url
+			    // source.setAttribute('src', this.lesson_lists[i].video_url)
 			    document.title = this.info.course_name + '-' + this.lesson_lists[i].lesson_name
 			    video.load()
-			    video.play()
+			    // video.play()
 			},
 			getHeader : function(key,split){
 				

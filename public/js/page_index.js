@@ -91,21 +91,26 @@ var app = new Vue({
         this.getCoursesList('1', this.pagination.limit, this.pagination.current)
     },
     mounted: function() {
+        var vConsole = new VConsole()
         var self = this
         var scrollAction = { x: undefined, y: undefined }
-        const scrollDom = document.querySelector("HTML")
-        console.log(scrollDom.scrollTop)
+        const scrollDom = document.querySelector("body")
         $(window).scroll(function() {
             if (typeof scrollAction.y === 'undefined') {
                 scrollAction.y = scrollDom.scrollTop
             }
             var diffY = scrollAction.y - scrollDom.scrollTop
             scrollAction.y = scrollDom.scrollTop
+            console.log(scrollAction);
+            
             scrollDom.scrollTop > scrollDom.clientHeight / 3 ? self.showGoTop = true : self.showGoTop = false
             if ((scrollDom.scrollTop + 5 >= scrollDom.scrollHeight - scrollDom.clientHeight) && diffY < 0) {
                 self.pagination.current++
                     self.getCoursesList('2', self.pagination.limit, self.pagination.current)
-                document.body.style.height = scrollDom.scrollHeight + 20 + 'px';
+                if(!self.noData) {
+                    document.body.style.height = scrollDom.scrollHeight + 20 + 'px';
+                    console.log(scrollAction);
+                }
             }
         })
     },
