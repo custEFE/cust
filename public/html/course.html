@@ -1,27 +1,42 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="zh-cn" xml:lang="zh-cn">
+
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <title>视频学习</title>
-    <meta name="keywords" content=""/>
+    <meta name="keywords" content="" />
     <meta name="description" content="" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=0" />
     <link href="http://vjs.zencdn.net/6.6.3/video-js.css" rel="stylesheet">
     <link href="https://cdn.bootcss.com/weui/1.1.2/style/weui.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../css/swiper.min.css">
     <link rel="stylesheet" href="../css/course.css">
-
 </head>
+
 <body>
     <div class="main-wrap" id="app">
-        <div class="header-wrap">
+        <div class="weui-search-bar" id="searchBar">
+            <div class="logo" style="">悠客优课
+                <!-- <img src="../images/logo2.png"> -->
+            </div>
+            <form class="weui-search-bar__form">
+                <div class="weui-search-bar__box">
+                    <i class="weui-icon-search"></i>
+                    <input type="search" class="weui-search-bar__input" id="searchInput" placeholder="搜索课程" required="">
+                    <a href="javascript:" class="weui-icon-clear" id="searchClear"></a>
+                </div>
+                <label class="weui-search-bar__label" id="searchText" style="transform-origin: 0px 0px 0px; opacity: 1; transform: scale(1, 1);">
+                    <i class="weui-icon-search"></i>
+                    <span>搜索</span>
+                </label>
+            </form>
+            <a href="javascript:" class="weui-search-bar__cancel-btn" id="searchCancel">取消</a>
+        </div>
+        <!-- <div class="header-wrap">
             <div class="logo">
                 <img src="../images/logo2.png">
-            </div>
-            <div class="search-btn">
-                <i class="weui-icon-search"></i>
-            </div>
-        </div>
+            </div>  
+        </div> -->
         <div class="nav swiper-container" id="mainSwiper">
             <div class="swiper-wrapper">
                 <div class="swiper-slide courstype" :class="{isSelect: item.isSelect}" v-for="(item, index) in coursesList" v-on:click="selectCourse(item.type)">{{item.name}}</div>
@@ -39,12 +54,11 @@
                     </div>
                 </div>
             </a>
-            <a href="javascript:;" @click="loadMore" style="margin: 15px;" class="weui-btn weui-btn_plain-primary weui-btn_plain-disabled" >{{loadMsg}}</a>
+            <a href="javascript:;" @click="loadMore" style="margin: 15px;" class="weui-btn weui-btn_plain-primary weui-btn_plain-disabled">{{loadMsg}}</a>
         </div>
         <div class="goTop" v-if="showGoTop" v-on:click="goTop">
             <i class="iconfont icon-fold"></i>
         </div>
-
         <div class="js_dialog" id="iosDialog1" :class="showDialog? 'show': 'hide'" style="opacity: 1;">
             <div class="weui-mask"></div>
             <div class="weui-dialog">
@@ -57,11 +71,59 @@
             </div>
         </div>
     </div>
+    <script src="https://cdn.bootcss.com/vue/2.5.13/vue.min.js"></script>
+    <script src="https://cdn.bootcss.com/vue-resource/1.5.0/vue-resource.min.js"></script>
+    <script src="https://cdn.bootcss.com/zepto/1.0rc1/zepto.min.js"></script>
+    <script src="http://wechatfe.github.io/vconsole/lib/vconsole.min.js?v=3.0.0.0"></script>
+    <script src="../js/swiper.min.js"></script>
+    <script src="../js/page_index.js"></script>
 
-<script src="https://cdn.bootcss.com/vue/2.5.13/vue.min.js"></script>
-<script src="https://cdn.bootcss.com/vue-resource/1.5.0/vue-resource.min.js"></script>
-<script src="https://cdn.bootcss.com/zepto/1.0rc1/zepto.min.js"></script>
-<script src="http://wechatfe.github.io/vconsole/lib/vconsole.min.js?v=3.0.0.0"></script>
-<script src="../js/swiper.min.js"></script>
-<script src="../js/page_index.js"></script>
+<script>
+    $(function() {
+        var $searchBar = $('#searchBar'),
+            $searchResult = $('#searchResult'),
+            $searchText = $('#searchText'),
+            $searchInput = $('#searchInput'),
+            $searchClear = $('#searchClear'),
+            $searchCancel = $('#searchCancel');
+            $logo = $('.logo');
+
+        function hideSearchResult(){
+            $searchResult.hide();
+            $searchInput.val('');
+        }
+        function cancelSearch(){
+            hideSearchResult();
+            $searchBar.removeClass('weui-search-bar_focusing');
+            $searchText.show();
+            $logo.show();
+        }
+
+        $searchText.on('click', function(){
+            $searchBar.addClass('weui-search-bar_focusing');
+            $searchInput.focus();
+            $logo.hide();
+        });
+        $searchInput
+            .on('blur', function () {
+                if(!this.value.length) cancelSearch();
+            })
+            .on('input', function(){
+                if(this.value.length) {
+                    $searchResult.show();
+                } else {
+                    $searchResult.hide();
+                }
+            })
+        ;
+        $searchClear.on('click', function(){
+            hideSearchResult();
+            $searchInput.focus();
+        });
+        $searchCancel.on('click', function(){
+            cancelSearch();
+            $searchInput.blur();
+        });
+    })
+</script>
 </html>
