@@ -81,6 +81,8 @@ var app = new Vue({
         listData: [],
         noData: false,
         showGoTop: false,
+        showDialog: true,
+        loadMsg: "点击加载更多..",
         pagination: {
             total: 0,
             limit: 10,
@@ -93,42 +95,26 @@ var app = new Vue({
     mounted: function() {
         var vConsole = new VConsole()
         var self = this
-        var scrollAction = { x: undefined, y: undefined }
-        const scrollDom = document.querySelector("body")
-        $(window).scroll(function() {
-            if (typeof scrollAction.y === 'undefined') {
-                scrollAction.y = scrollDom.scrollTop
-            }
-            var diffY = scrollAction.y - scrollDom.scrollTop
-            scrollAction.y = scrollDom.scrollTop
-            console.log(scrollAction);
-            
-            scrollDom.scrollTop > scrollDom.clientHeight / 3 ? self.showGoTop = true : self.showGoTop = false
-            if ((scrollDom.scrollTop + 5 >= scrollDom.scrollHeight - scrollDom.clientHeight) && diffY < 0) {
-                self.pagination.current++
-                    self.getCoursesList('2', self.pagination.limit, self.pagination.current)
-                if(!self.noData) {
-                    document.body.style.height = scrollDom.scrollHeight + 20 + 'px';
-                    console.log(scrollAction);
-                }
-            }
-        })
     },
     methods: {
         // type = 1 赋值   type = 2  push
         getCoursesList: function(type, limit, current) {
             var self = this
             if (self.noData) {
-                console.log('沒有更多数据了');
+              
+              console.log('沒有更多数据了');
             } else {
                 self.$http.get('http://140.143.163.52:8888/course/getList/'+current + '/' + limit+'?type='+self.courseType).then( function(res) {
                     var json = res.body
-                    console.log(json);
+                    console.log(json)
+                    self.showDialog = false
                     if (json.length === 0) {
                         self.noData = true
+                        self.loadMsg = '沒有更多数据了'
                     }
                     if (type === '1') {
                         self.listData = json
+                        self.loadMsg = '点击加载更多..'
                     } else {
                         for (var i = 0; i < json.length; i++) {
                             self.listData.push(json[i])
@@ -152,6 +138,10 @@ var app = new Vue({
                 }
             })
             this.getCoursesList('1', this.pagination.limit, this.pagination.current)
+        },
+        loadMore: function() {
+            this.pagination.current++
+            this.getCoursesList('2', this.pagination.limit, this.pagination.current)
         },
         goTop: function() {
             scrollTo(0, 0)

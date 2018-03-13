@@ -6,12 +6,6 @@
     <meta name="keywords" content=""/>
     <meta name="description" content="" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=0" />
-    <!-- <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script> -->
-    <!-- <script charset="utf-8" src="http://map.qq.com/api/js?v=2.exp&libraries=convertor"></script> -->
-    <!-- <script src="../../dist/v20161222/bundle.js"></script> -->
-    <!-- <script src="//cdn.vizen.cn/public/plugins/es6-promise/es6-promise.min.js"></script> -->
-    <!-- <script type='text/javascript' src="//cdn.vizen.cn/public/plugins/es5-shim/es5-shim.min.js"></script> -->
-    <!-- <script type="text/javascript" src="../../dist/v20161222/ued.import.js" charset="utf-8"></script> -->
     <link href="http://vjs.zencdn.net/6.6.3/video-js.css" rel="stylesheet">
     <link href="https://cdn.bootcss.com/weui/1.1.2/style/weui.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../css/swiper.min.css">
@@ -45,9 +39,22 @@
                     </div>
                 </div>
             </a>
+            <a href="javascript:;" @click="loadMore" style="margin: 15px;" class="weui-btn weui-btn_plain-primary weui-btn_plain-disabled" >{{loadMsg}}</a>
         </div>
         <div class="goTop" v-if="showGoTop" v-on:click="goTop">
             <i class="iconfont icon-fold"></i>
+        </div>
+
+        <div class="js_dialog" id="iosDialog1" :class="showDialog? 'show': 'hide'" style="opacity: 1;">
+            <div class="weui-mask"></div>
+            <div class="weui-dialog">
+                <div class="weui-dialog__bd">
+                    <div class="weui-loadmore">
+                        <i class="weui-loading"></i>
+                        <span class="weui-loadmore__tips">正在加载</span>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 

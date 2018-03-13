@@ -176,7 +176,7 @@
 		},
 		mounted: function(){
 			var vConsole = new VConsole()
-			this.id = this.getHeader('id', ' ');
+			this.id = this.getHeader('id', '&');
 			console.log(this.id);
 			this.loadData()
 			this.$nextTick(function () {
