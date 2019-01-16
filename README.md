@@ -10,7 +10,7 @@ npm start
 本地Url: `localhost:3000`
 
 
-线上baseUrl: `http://140.143.163.52:8888`或者`http://www.ilovehena.cn:8888`
+线上baseUrl: `http://140.143.163.52:8888`
 
 
 <table>
