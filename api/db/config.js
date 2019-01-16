@@ -8,9 +8,9 @@ var config = {
   },
   prod: {
       connectionLimit : 10,
-      host            : '140.143.163.52',
+      host            : 'xx.xx.xx.xx',
       user            : 'root',
-      password        : 'wenyujie@123',
+      password        : 'password',
       database        : 'custblog'
   }
 }
